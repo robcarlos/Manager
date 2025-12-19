@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Portal Investco / EDP — Busca de ativos</title>
+<link rel="icon" href="assets/favicon.png"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#1fb2e0"/>
+<style>
+:root{--bg:#0b0f1a;--panel:#070c17;--bd:#1e293b;--fg:#e6eaf2;--muted:#8aa0b9;--accent:#1fb2e0;--shadow:0 8px 28px rgba(2,12,32,.35)}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:linear-gradient(180deg,var(--bg),#050912);color:var(--fg);font:500 15px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+.container{max-width:1100px;margin:0 auto;padding:20px}a{color:inherit;text-decoration:none}
+header{backdrop-filter:saturate(1.2) blur(8px);background:linear-gradient(180deg,rgba(6,10,18,.6),rgba(6,10,18,.2));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:30}
+.header-inner{display:flex;align-items:center;gap:14px;padding:12px 0}.logo{width:42px}
+.brand h1{font-size:18px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+nav.primary{position:sticky;top:60px;z-index:29;margin:0;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,rgba(7,12,23,.85),rgba(7,12,23,.55))}
+nav.primary .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+nav.primary a{display:inline-block;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);font-size:14px}
+nav.primary a.active,nav.primary a:hover{border-color:var(--accent)}
+h2{margin:14px 0 8px}
+.card{border:1px solid var(--bd);background:linear-gradient(180deg,rgba(6,11,23,.85),rgba(6,10,21,.65));border-radius:16px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+.filters{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.filters select,.filters input{background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+@media (max-width:1000px){.filters{grid-template-columns:1fr 1fr}}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;justify-content:space-between}
+.btn{padding:8px 10px;border:1px solid var(--bd);background:#0c1628;color:var(--fg);border-radius:10px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent)}.badge{padding:4px 8px;border:1px solid var(--bd);border-radius:999px;font-size:12px;background:#0f1726;color:#8aa0b9}
+.table{width:100%;border-collapse:collapse;margin-top:12px}.table th,.table td{padding:10px;border-bottom:1px solid var(--bd);text-align:left;font-size:14px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.pagination{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:1000}
+.modal.open{display:grid}.modal .box{width:min(720px,94vw);background:linear-gradient(180deg,#0b1324,#0b111b);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.form-grid label{font-size:12px;color:#8aa0b9}
+.form-grid input,.form-grid select{width:100%;background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+.toast{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:1200}.toast .t{background:#0e1a2d;border:1px solid #1e2c42;color:#d8e6f5;padding:10px 12px;border-radius:10px;min-width:220px}
+.float-btns{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:10px;z-index:9999}
+.float-btn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:rgba(10,21,40,.9);border:1px solid #1e293b;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:pointer}
+.float-btn svg{width:26px;height:26px;fill:#1fb2e0}
+</style>
+</head><body>
+<header><div class="container header-inner">
+  <a href="index.html"><img class="logo" src="assets/logo-edp.png" alt="Logo EDP"/></a>
+  <div class="brand"><h1>Portal Investco / EDP — Inventário</h1><p>Gestão de ativos • Filtros avançados • CRUD com confirmação</p></div>
+</div></header>
+<nav class="primary"><div class="container">
+  <a href="index.html">Início</a>
+  <a href="acesso.html">Acesso & Senhas</a>
+  <a href="servicenow.html">ServiceNow</a>
+  <a class="active" href="inventario.html">Inventário</a>
+  <a href="sap.html">SAP Fiori</a>
+  <a href="impressoras.html">Impressoras</a>
+  <a href="contatos.html">Telefones</a>
+  <a href="ia.html">Assistentes IA</a>
+</div></nav>
+  <div class="container">
+    <section class="card">
+      <h1>Busca de ativos do inventário</h1>
+      <p class="subtitle">
+        Localize rapidamente equipamentos por tipo, TAG, IMEI, localização ou centro de custo.
+      </p>
+
+      <div class="filters">
+        <div class="field">
+          <label for="s-tipo">Tipo</label>
+          <select id="s-tipo">
+            <option value="">Todos</option>
+            <option value="Celular">Celular</option>
+            <option value="Notebook">Notebook</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Redes">Redes</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="s-local">Localização</label>
+          <input id="s-local" placeholder="UHE Lajeado, Escritório Palmas..."/>
+        </div>
+        <div class="field">
+          <label for="s-tag">TAG / Service Tag</label>
+          <input id="s-tag" placeholder="Ex.: BRGHIN50200924"/>
+        </div>
+        <div class="field">
+          <label for="s-imei">IMEI</label>
+          <input id="s-imei" placeholder="IMEI do celular"/>
+        </div>
+        <div class="field">
+          <label for="s-cc">Centro de custo</label>
+          <input id="s-cc" placeholder="Ex.: UHE Lajeado"/>
+        </div>
+        <div class="field">
+          <label for="s-fabricante">Fabricante</label>
+          <input id="s-fabricante" placeholder="Dell, Samsung, Apple..."/>
+        </div>
+        <div class="field">
+          <label for="s-modelo">Modelo</label>
+          <input id="s-modelo" placeholder="Latitude 5450, iPhone 12..."/>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary" id="btn-buscar">Buscar</button>
+          <button class="btn btn-ghost" id="btn-limpar">Limpar</button>
+        </div>
+        <div>
+          <span id="info-count"><span id="s-count">0</span> ativo(s) encontrado(s)</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Tipo</th>
+            <th>Modelo</th>
+            <th>Identificador</th>
+            <th>Localização</th>
+            <th>Fabricante</th>
+            <th>Centro de custo</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="s-rows"></tbody>
+      </table>
+      <div class="empty-msg" id="s-empty">Nenhum resultado carregado ainda. Use os filtros acima para buscar.</div>
+
+      <div class="results-footer">
+        <div id="s-page-info">pág 1</div>
+        <div class="pager">
+          <button id="btn-prev">&laquo; Anterior</button>
+          <button id="btn-next">Próxima &raquo;</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Portal interno — Inventário de ativos • Consulta somente leitura
+  </footer>
+
+<script>
+(function(){
+  let page = 1;
+  let pageSize = 20;
+  let total = 0;
+  let pages = 1;
+
+  function val(id){
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  async function load(p){
+    page = p || 1;
+    const params = new URLSearchParams({
+      page: page,
+      pageSize: pageSize,
+      tipo: val('s-tipo'),
+      localizacao: val('s-local'),
+      fabricante: val('s-fabricante'),
+      modelo: val('s-modelo'),
+      tag: val('s-tag'),
+      imei: val('s-imei'),
+      centro_custo: val('s-cc')
+    });
+
+    const tbody = document.getElementById('s-rows');
+    const empty = document.getElementById('s-empty');
+    const infoCount = document.getElementById('s-count');
+    const pageInfo = document.getElementById('s-page-info');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    if(empty) empty.textContent = 'Carregando...';
+    if(tbody) tbody.innerHTML = '';
+
+    try{
+      const r = await fetch('/api/equipamentos?' + params.toString());
+      if(r.status === 401 || r.status === 403){
+        if(empty) empty.textContent = 'Acesso restrito. Faça login na página inicial do portal para utilizar a busca de ativos.';
+        return;
+      }
+      if(!r.ok){
+        if(empty) empty.textContent = 'Erro ao carregar dados ('+r.status+').';
+        return;
+      }
+      const j = await r.json();
+      const data = j.data || [];
+      total = j.total || data.length || 0;
+      pages = j.pages || 1;
+
+      if(infoCount) infoCount.textContent = total;
+      if(pageInfo) pageInfo.textContent = 'pág ' + (j.page || page || 1);
+
+      if(!data.length){
+        if(empty) empty.textContent = 'Nenhum ativo encontrado para os filtros informados.';
+        return;
+      }
+      if(empty) empty.textContent = '';
+
+      data.forEach((e,i)=>{
+        const tr = document.createElement('tr');
+        const ident = e.service_tag || e.imei || '';
+        tr.innerHTML = `
+          <td>${(j.page-1)*pageSize + i + 1}</td>
+          <td><span class="chip-tipo">${e.tipo || ''}</span></td>
+          <td>${e.modelo || ''}</td>
+          <td>${ident ? `<span class="badge badge-soft">${ident}</span>` : ''}</td>
+          <td>${e.localizacao || ''}</td>
+          <td>${e.fabricante || ''}</td>
+          <td>${e.centro_custo || ''}</td>
+          <td>${e.estado || ''}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if(btnPrev){
+        btnPrev.disabled = (j.page || page) <= 1;
+      }
+      if(btnNext){
+        btnNext.disabled = (j.page || page) >= pages;
+      }
+    }catch(err){
+      console.error(err);
+      if(empty) empty.textContent = 'Falha na comunicação com o servidor.';
+    }
+  }
+
+  const btnBuscar = document.getElementById('btn-buscar');
+  const btnLimpar = document.getElementById('btn-limpar');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+
+  if(btnBuscar){
+    btnBuscar.addEventListener('click', function(e){
+      e.preventDefault();
+      load(1);
+    });
+  }
+  if(btnLimpar){
+    btnLimpar.addEventListener('click', function(e){
+      e.preventDefault();
+      ['s-tipo','s-local','s-tag','s-imei','s-cc','s-fabricante','s-modelo'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.value = '';
+      });
+      load(1);
+    });
+  }
+  if(btnPrev){
+    btnPrev.addEventListener('click', function(e){
+      e.preventDefault();
+      if(page > 1) load(page-1);
+    });
+  }
+  if(btnNext){
+    btnNext.addEventListener('click', function(e){
+      e.preventDefault();
+      if(page < pages) load(page+1);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

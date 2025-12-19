@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="pt-br"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Portal EDP — Início</title>
+<meta name="description" content="Mini site interno com atalhos EDP/Investco."/>
+<link rel="icon" href="assets/logo-edp.png"/>
+<style>
+:root{
+  --bg:#0b0f1a; --panel:#070c17; --bd:#1e293b; --fg:#e6eaf2; --muted:#8aa0b9;
+  --accent:#3bc6ff; --accent2:#20e0e0; --glass:rgba(9,14,25,.6);
+  --shadow: 0 8px 28px rgba(2,12,32,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(1200px 700px at 10% -10%,#0e1628,transparent),radial-gradient(1200px 700px at 120% 10%,#0b1422,transparent),linear-gradient(180deg,var(--bg),#050912);color:var(--fg);font:500 16px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+header{backdrop-filter:saturate(1.2) blur(8px);background:linear-gradient(180deg,rgba(6,10,18,.6),rgba(6,10,18,.2));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:20}
+.header-inner{display:flex;align-items:center;gap:14px;padding:14px 0}
+.logo{width:220px;height:auto;filter:drop-shadow(0 0 8px rgba(59,198,255,.35))}
+.brand h1{font-size:18px;margin:0}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+nav.primary{position:sticky;top:64px;z-index:19;margin:0;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,rgba(7,12,23,.85),rgba(7,12,23,.55))}
+nav.primary .container{display:flex;flex-wrap:wrap;gap:8px}
+nav.primary a{display:inline-block;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);font-size:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+nav.primary a.active, nav.primary a:hover{border-color:var(--accent)}
+section{border:1px solid var(--bd);background:linear-gradient(180deg,rgba(6,11,23,.85),rgba(6,10,21,.65));border-radius:16px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+h2{margin:0 0 10px;font-size:18px}
+/* CTA buttons (tile style) */ 
+.cta-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.cta{grid-column:span 6;position:relative;overflow:hidden;border:1px solid var(--bd);border-radius:16px;background:
+  radial-gradient(120% 120% at 10% 10%,rgba(59,198,255,.12),transparent 40%),
+  linear-gradient(180deg,#0a1528,#0a1222);padding:18px;min-height:110px;cursor:pointer;transition:transform .08s ease, border-color .1s ease, box-shadow .1s ease;box-shadow:var(--shadow)}
+.cta:hover{border-color:var(--accent);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.cta:active{transform:scale(0.99)}
+.cta .label{font-size:16px;font-weight:700;margin:0 0 6px}
+.cta .desc{font-size:13px;color:var(--muted);margin:0}
+.cta kbd{position:absolute;top:10px;right:12px;font-size:12px;color:var(--muted);border:1px solid var(--bd);padding:2px 6px;border-radius:8px;background:#0b1220}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .6s linear;background:rgba(59,198,255,.35);pointer-events:none}
+@keyframes ripple{to{transform:scale(10);opacity:0}}
+@media (max-width:900px){.cta{grid-column:span 12}}
+/* Home search */ 
+.search-wrap{display:flex;justify-content:center;margin:8px 0 16px}
+.search{width:100%;max-width:420px;background:rgba(8,14,26,.65);border:1px solid var(--bd);color:var(--fg);padding:10px 12px;border-radius:12px;outline:none}
+.search::placeholder{color:var(--muted)}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:24px 0}
+
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.70);display:none;align-items:center;justify-content:center;z-index:40}
+.modal.open{display:flex}
+.modal-box{background:#020617;border:1px solid var(--bd);border-radius:16px;box-shadow:var(--shadow);padding:18px;max-width:360px;width:100%}
+.modal-box h3{margin:0 0 8px;font-size:16px}
+.modal-box p{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.modal-box input{width:100%;padding:8px 10px;border-radius:10px;border:1px solid var(--bd);background:#020617;color:var(--fg);font-size:14px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.modal-error{margin-top:6px;font-size:12px;color:#f97373}
+</style>
+</head><body>
+<header>
+  <div class="container header-inner">
+    <a href="index.html"><img class="logo" src="assets/logo-edp.png" alt="Logo EDP"/></a>
+    <div class="brand">
+      <h1>Portal Corporativo — Manager & Password</h1>
+      <p>Atalhos rápidos para acesso e suporte (EDP / Investco)</p>
+    </div>
+  </div>
+</header>
+<nav class="primary"><div class="container">
+  <a href="index.html" class="active">Início</a>
+  <a href="acesso.html">Acesso & Senhas</a>
+  <a href="servicenow.html">ServiceNow</a>
+  <a href="sap.html">SAP Fiori</a>
+  <a href="impressoras.html">Impressoras</a>
+  <a href="contatos.html">Telefones</a>
+  <a href="ia.html">Assistentes IA</a>
+</div></nav>
+<div class="container">
+<section>
+  <h2>Início rápido</h2>
+  <div class="search-wrap">
+    <input id="qs" class="search" type="search" placeholder="Pesquisar (ex.: SAP, ServiceNow, IA...)" aria-label="Pesquisar atalhos"/>
+  </div>
+  <div class="cta-grid" id="home-ctas">
+    <div id="cta-acesso" class="cta" data-href="acesso.html"><kbd>1</kbd><p class="label">Acesso &amp; Senhas</p><p class="desc">IAM, desbloqueio de senha e BitLocker.</p></div>
+    <div id="cta-snow" class="cta" data-href="servicenow.html"><kbd>2</kbd><p class="label">ServiceNow</p><p class="desc">Portal e categorias de catálogo.</p></div>
+    <div id="cta-sap" class="cta" data-href="sap.html"><kbd>3</kbd><p class="label">SAP Fiori</p><p class="desc">Ambientes P40 e P41.</p></div>
+    <div id="cta-print" class="cta" data-href="impressoras.html"><kbd>4</kbd><p class="label">Impressoras</p><p class="desc">Painéis web Miracema e Palmas.</p></div>
+    <div id="cta-fone" class="cta" data-href="contatos.html"><kbd>5</kbd><p class="label">Telefones</p><p class="desc">Escritório e UHE Lajeado.</p></div>
+    <div id="cta-inv" class="cta cta-inventario"><kbd>7</kbd><p class="label">Inventário</p><p class="desc">Cadastro e controle de ativos (acesso restrito).</p></div>
+    <div id="cta-ia" class="cta" data-href="ia.html"><kbd>6</kbd><p class="label">Assistentes IA</p><p class="desc">Copilot, ChatGPT e boas práticas.</p></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  function go(href){ window.open(href, href.startsWith('http') ? '_blank' : '_self'); }
+  function attach(el, href){
+    el.addEventListener('click', (e)=>{
+      const r = document.createElement('span');
+      r.className='ripple';
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = size+'px';
+      r.style.left = (e.clientX - rect.left - size/2)+'px';
+      r.style.top  = (e.clientY - rect.top  - size/2)+'px';
+      el.appendChild(r);
+      setTimeout(()=>r.remove(), 650);
+      setTimeout(()=>go(href), 80);
+    });
+    el.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(href); }
+    });
+    el.setAttribute('tabindex','0');
+    el.setAttribute('role','button');
+  }
+  document.querySelectorAll('[data-href]').forEach(el=>attach(el, el.getAttribute('data-href')));
+  // Home quick search
+  const qs = document.getElementById('qs');
+  if(qs){
+    const items = Array.from(document.querySelectorAll('#home-ctas .cta'));
+    qs.addEventListener('input', ()=>{
+      const t = (qs.value||'').toLowerCase();
+      items.forEach(el=>{
+        const s = el.textContent.toLowerCase();
+        el.style.display = !t || s.includes(t) ? '' : 'none';
+      });
+    });
+  }
+})();
+</script>
+<div id="modal-inv" class="modal"><div class="modal-box">
+  <h3>Acesso restrito ao inventário</h3>
+  <p>Informe sua matrícula e e-mail corporativo (@investco.com.br) para prosseguir.</p>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+    <input type="text" id="inv-matricula" placeholder="Matrícula (Nº pessoal)"/>
+    <input type="email" id="inv-email" placeholder="E-mail corporativo (@investco.com.br, @edp.com.br ou @dxc.com)"/>
+  </div>
+  <div class="modal-error" id="inv-error"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" id="inv-cancel">Cancelar</button>
+    <button class="btn btn-primary" id="inv-ok">Entrar</button>
+  </div>
+</div></div>
+
+</div><footer>Feito para uso interno — Alguns links exigem rede interna/VPN corporativa.</footer>
+<script>
+(function(){
+  const card = document.getElementById('cta-inv');
+  const modal = document.getElementById('modal-inv');
+  const inputMat = document.getElementById('inv-matricula');
+  const inputEmail = document.getElementById('inv-email');
+  const errorEl = document.getElementById('inv-error');
+  const btnOk = document.getElementById('inv-ok');
+  const btnCancel = document.getElementById('inv-cancel');
+
+  function openModal(){
+    if(!modal) return;
+    modal.classList.add('open');
+    errorEl.textContent='';
+    if(inputMat){
+      inputMat.value='';
+    }
+    if(inputEmail){
+      inputEmail.value='';
+    }
+    setTimeout(()=>{ if(inputMat){ inputMat.focus(); } }, 50);
+  }
+  function closeModal(){
+    if(!modal) return;
+    modal.classList.remove('open');
+  }
+
+  if(card){
+    card.addEventListener('click', (e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
+
+  if(btnCancel){
+    btnCancel.onclick = (e)=>{
+      e.preventDefault();
+      closeModal();
+    };
+  }
+
+  if(modal){
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal){
+        closeModal();
+      }
+    });
+  }
+
+  async function autenticar(){
+    const matricula = (inputMat && inputMat.value || '').trim();
+    const email = (inputEmail && inputEmail.value || '').trim();
+    if(!matricula || !email){
+      errorEl.textContent = 'Informe matrícula e e-mail corporativo.';
+      return;
+    }
+    try{
+      const r = await fetch('/api/auth/inventario', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ matricula, email })
+      });
+      if(!r.ok){
+        const data = await r.json().catch(()=>({}));
+        errorEl.textContent = data.error || 'Acesso não autorizado.';
+        return;
+      }
+      window.location.href = 'inventario.html';
+    }catch(err){
+      console.error(err);
+      errorEl.textContent = 'Falha na comunicação com o servidor.';
+    }
+  }
+
+  if(btnOk){
+    btnOk.onclick = (e)=>{
+      e.preventDefault();
+      autenticar();
+    };
+  }
+  if(inputEmail){
+    inputEmail.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        autenticar();
+      }
+    });
+  }
+})();
+</script>
+</body></html>

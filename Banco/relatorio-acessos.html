@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Portal Investco / EDP — Relatório de acessos ao inventário</title>
+<link rel="icon" href="assets/favicon.png"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#1fb2e0"/>
+<style>
+:root{--bg:#0b0f1a;--panel:#070c17;--bd:#1e293b;--fg:#e6eaf2;--muted:#8aa0b9;--accent:#1fb2e0;--shadow:0 8px 28px rgba(2,12,32,.35)}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:linear-gradient(180deg,var(--bg),#050912);color:var(--fg);font:500 15px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+.container{max-width:1100px;margin:0 auto;padding:20px}a{color:inherit;text-decoration:none}
+header{backdrop-filter:saturate(1.2) blur(8px);background:linear-gradient(180deg,rgba(6,10,18,.6),rgba(6,10,18,.2));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:30}
+.header-inner{display:flex;align-items:center;gap:14px;padding:12px 0}.logo{width:42px}
+.brand h1{font-size:18px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+nav.primary{position:sticky;top:60px;z-index:29;margin:0;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,rgba(7,12,23,.85),rgba(7,12,23,.55))}
+nav.primary .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+nav.primary a{display:inline-block;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);font-size:14px}
+nav.primary a.active,nav.primary a:hover{border-color:var(--accent)}
+h2{margin:14px 0 8px}
+.card{border:1px solid var(--bd);background:linear-gradient(180deg,rgba(6,11,23,.85),rgba(6,10,21,.65));border-radius:16px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+.filters{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.filters select,.filters input{background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+@media (max-width:1000px){.filters{grid-template-columns:1fr 1fr}}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;justify-content:space-between}
+.btn{padding:8px 10px;border:1px solid var(--bd);background:#0c1628;color:var(--fg);border-radius:10px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent)}.badge{padding:4px 8px;border:1px solid var(--bd);border-radius:999px;font-size:12px;background:#0f1726;color:#8aa0b9}
+.table{width:100%;border-collapse:collapse;margin-top:12px}.table th,.table td{padding:10px;border-bottom:1px solid var(--bd);text-align:left;font-size:14px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.pagination{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:1000}
+.modal.open{display:grid}.modal .box{width:min(720px,94vw);background:linear-gradient(180deg,#0b1324,#0b111b);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.form-grid label{font-size:12px;color:#8aa0b9}
+.form-grid input,.form-grid select{width:100%;background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+.toast{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:1200}.toast .t{background:#0e1a2d;border:1px solid #1e2c42;color:#d8e6f5;padding:10px 12px;border-radius:10px;min-width:220px}
+.float-btns{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:10px;z-index:9999}
+.float-btn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:rgba(10,21,40,.9);border:1px solid #1e293b;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:pointer}
+.float-btn svg{width:26px;height:26px;fill:#1fb2e0}
+
+.logs-header{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.logs-header h2{margin:0;font-size:18px}
+.logs-header p{margin:0;font-size:13px;color:var(--muted)}
+.logs-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:flex-end}
+.logs-controls .field{display:flex;flex-direction:column;font-size:13px;color:var(--muted)}
+.logs-controls label{margin-bottom:2px}
+.logs-controls input,.logs-controls select{min-width:160px;padding:6px 8px;border-radius:10px;border:1px solid var(--bd);background:#020617;color:var(--fg);font-size:14px}
+.logs-table-wrap{border-radius:12px;border:1px solid var(--bd);overflow:hidden}
+.logs-table{width:100%;border-collapse:collapse;font-size:13px}
+.logs-table thead{background:#020617}
+.logs-table th,.logs-table td{padding:8px 10px;border-bottom:1px solid rgba(15,23,42,.9);text-align:left;vertical-align:top}
+.logs-table tbody tr:hover{background:rgba(15,23,42,.85)}
+.log-status{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:999px;font-size:11px}
+.log-status.ok{background:rgba(34,197,94,.12);color:#4ade80}
+.log-status.fail{background:rgba(248,113,113,.12);color:#fb7185}
+.logs-empty{margin-top:10px;font-size:13px;color:var(--muted)}
+
+</style>
+</head><body>
+<header><div class="container header-inner">
+  <a href="index.html"><img class="logo" src="assets/logo-edp.png" alt="Logo EDP"/></a>
+  <div class="brand"><h1>Portal Investco / EDP — Inventário</h1><p>Gestão de ativos • Filtros avançados • CRUD com confirmação</p></div>
+</div></header>
+<nav class="primary"><div class="container">
+  <a href="index.html">Início</a>
+  <a href="acesso.html">Acesso & Senhas</a>
+  <a href="servicenow.html">ServiceNow</a>
+  <a class="active" href="inventario.html">Inventário</a>
+  <a href="sap.html">SAP Fiori</a>
+  <a href="impressoras.html">Impressoras</a>
+  <a href="contatos.html">Telefones</a>
+  <a href="ia.html">Assistentes IA</a>
+</div></nav>
+<div class="container">
+  <section class="card" style="margin-top:18px">
+    <div class="logs-header">
+      <h2>Relatório de acessos ao inventário</h2>
+      <p>Acompanhe as últimas tentativas de acesso ao módulo de inventário.</p>
+    </div>
+    <div class="logs-controls">
+      <div class="field">
+        <label for="f-status">Status</label>
+        <select id="f-status">
+          <option value="">Todos</option>
+          <option value="ok">Somente sucessos</option>
+          <option value="erro">Somente falhas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-search">Matrícula, e-mail ou mensagem</label>
+        <input type="text" id="f-search" placeholder="Filtrar por texto livre"/>
+      </div>
+      <div class="field">
+        <label for="f-limit">Quantidade de registros</label>
+        <select id="f-limit">
+          <option value="50">50</option>
+          <option value="100" selected>100</option>
+          <option value="200">200</option>
+          <option value="500">500</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn btn-ghost" id="btn-logs-reload">Recarregar</button>
+      </div>
+    </div>
+    <div class="logs-table-wrap">
+      <table class="logs-table">
+        <thead>
+          <tr>
+            <th>Data / hora</th>
+            <th>Login EDP</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Notebook</th>
+            <th>IP</th>
+            <th>Status</th>
+            <th>Mensagem</th>
+          </tr>
+        </thead>
+        <tbody id="logs-body"></tbody>
+      </table>
+    </div>
+    <div class="logs-empty" id="logs-loading">Carregando...</div>
+  </section>
+</div>
+
+
+<script>
+(function(){
+  const tbody = document.getElementById('logs-body');
+  const statusSel = document.getElementById('f-status');
+  const searchInput = document.getElementById('f-search');
+  const limitSel = document.getElementById('f-limit');
+  const loadingEl = document.getElementById('logs-loading');
+  const btnReload = document.getElementById('btn-logs-reload');
+  let allLogs = [];
+
+  function formatDate(d){
+    if(!d) return '';
+    return d.replace('T',' ').substring(0,19);
+  }
+
+  function render(lista){
+    if(!tbody) return;
+    tbody.innerHTML = '';
+    if(!lista.length){
+      if(loadingEl) loadingEl.textContent = 'Nenhum registro encontrado para os filtros aplicados.';
+      return;
+    }
+    if(loadingEl) loadingEl.textContent = '';
+
+    lista.forEach(l=>{
+      const tr = document.createElement('tr');
+      const statusLabel = l.sucesso ? 'Sucesso' : 'Falha';
+      const statusClass = l.sucesso ? 'ok' : 'fail';
+      const nb = [l.notebook_modelo, l.notebook_tag, l.notebook_hostname]
+                  .filter(Boolean)
+                  .join(' • ');
+
+      tr.innerHTML = `
+        <td>${formatDate(l.data_hora)}</td>
+        <td>${l.login_edp || ''}</td>
+        <td>${l.nome || ''}</td>
+        <td>${l.email || ''}</td>
+        <td>${nb || ''}</td>
+        <td>${l.ip || ''}</td>
+        <td><span class="log-status ${statusClass}">${statusLabel}</span></td>
+        <td>${l.mensagem || ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function aplicarFiltros(){
+    let lista = allLogs.slice();
+    const status = statusSel ? statusSel.value : '';
+    const termo = (searchInput && searchInput.value || '').trim().toLowerCase();
+
+    if(status === 'ok'){
+      lista = lista.filter(l => l.sucesso === 1 || l.sucesso === true);
+    }else if(status === 'erro'){
+      lista = lista.filter(l => !l.sucesso);
+    }
+    if(termo){
+      lista = lista.filter(l=>{
+        const txt = (
+          (l.login_edp||'')+' '+
+          (l.nome||'')+' '+
+          (l.email||'')+' '+
+          (l.mensagem||'')+' '+
+          (l.notebook_modelo||'')+' '+
+          (l.notebook_tag||'')+' '+
+          (l.notebook_hostname||'')
+        ).toLowerCase();
+        return txt.includes(termo);
+      });
+    }
+    render(lista);
+  }
+
+  async function carregar(){
+    if(loadingEl) loadingEl.textContent = 'Carregando...';
+    if(tbody) tbody.innerHTML = '';
+    try{
+      const limitVal = limitSel ? limitSel.value : '100';
+      const r = await fetch('/api/inventario/logs?limit='+encodeURIComponent(limitVal));
+      if(!r.ok){
+        if(loadingEl) loadingEl.textContent = 'Erro ao carregar logs (código '+r.status+').';
+        return;
+      }
+      const data = await r.json();
+      allLogs = data && (data.rows || data) || [];
+      aplicarFiltros();
+    }catch(err){
+      console.error(err);
+      if(loadingEl) loadingEl.textContent = 'Falha na comunicação com o servidor.';
+    }
+  }
+
+  if(btnReload){
+    btnReload.addEventListener('click', (e)=>{ e.preventDefault(); carregar(); });
+  }
+  if(statusSel){
+    statusSel.addEventListener('change', aplicarFiltros);
+  }
+  if(searchInput){
+    searchInput.addEventListener('input', ()=>{ aplicarFiltros(); });
+  }
+
+  carregar();
+})();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="pt-br"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Portal EDP — Impressoras</title>
+<meta name="description" content="Mini site interno com atalhos EDP/Investco."/>
+<link rel="icon" href="assets/logo-edp.png"/>
+<style>
+:root{
+  --bg:#0b0f1a; --panel:#070c17; --bd:#1e293b; --fg:#e6eaf2; --muted:#8aa0b9;
+  --accent:#3bc6ff; --accent2:#20e0e0; --glass:rgba(9,14,25,.6);
+  --shadow: 0 8px 28px rgba(2,12,32,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(1200px 700px at 10% -10%,#0e1628,transparent),radial-gradient(1200px 700px at 120% 10%,#0b1422,transparent),linear-gradient(180deg,var(--bg),#050912);color:var(--fg);font:500 16px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+header{backdrop-filter:saturate(1.2) blur(8px);background:linear-gradient(180deg,rgba(6,10,18,.6),rgba(6,10,18,.2));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:20}
+.header-inner{display:flex;align-items:center;gap:14px;padding:14px 0}
+.logo{width:220px;}height:auto;filter:drop-shadow(0 0 8px rgba(59,198,255,.35))}
+.brand h1{font-size:18px;margin:0}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+nav.primary{position:sticky;top:64px;z-index:19;margin:0;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,rgba(7,12,23,.85),rgba(7,12,23,.55))}
+nav.primary .container{display:flex;flex-wrap:wrap;gap:8px}
+nav.primary a{display:inline-block;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);font-size:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+nav.primary a.active, nav.primary a:hover{border-color:var(--accent)}
+section{border:1px solid var(--bd);background:linear-gradient(180deg,rgba(6,11,23,.85),rgba(6,10,21,.65));border-radius:16px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+h2{margin:0 0 10px;font-size:18px}
+/* CTA buttons (tile style) */ 
+.cta-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.cta{grid-column:span 6;position:relative;overflow:hidden;border:1px solid var(--bd);border-radius:16px;background:
+  radial-gradient(120% 120% at 10% 10%,rgba(59,198,255,.12),transparent 40%),
+  linear-gradient(180deg,#0a1528,#0a1222);padding:18px;min-height:110px;cursor:pointer;transition:transform .08s ease, border-color .1s ease, box-shadow .1s ease;box-shadow:var(--shadow)}
+.cta:hover{border-color:var(--accent);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.cta:active{transform:scale(0.99)}
+.cta .label{font-size:16px;font-weight:700;margin:0 0 6px}
+.cta .desc{font-size:13px;color:var(--muted);margin:0}
+.cta kbd{position:absolute;top:10px;right:12px;font-size:12px;color:var(--muted);border:1px solid var(--bd);padding:2px 6px;border-radius:8px;background:#0b1220}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .6s linear;background:rgba(59,198,255,.35);pointer-events:none}
+@keyframes ripple{to{transform:scale(10);opacity:0}}
+@media (max-width:900px){.cta{grid-column:span 12}}
+/* Home search */ 
+.search-wrap{display:flex;justify-content:center;margin:8px 0 16px}
+.search{width:100%;max-width:420px;background:rgba(8,14,26,.65);border:1px solid var(--bd);color:var(--fg);padding:10px 12px;border-radius:12px;outline:none}
+.search::placeholder{color:var(--muted)}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:24px 0}
+</style>
+</head><body>
+<header>
+  <div class="container header-inner">
+    <a href="index.html"><img class="logo" src="assets/logo-edp.png" alt="Logo EDP"/></a>
+    <div class="brand">
+      <h1>Portal Corporativo — Manager & Password</h1>
+      <p>Atalhos rápidos para acesso e suporte (EDP / Investco)</p>
+    </div>
+  </div>
+</header>
+<nav class="primary"><div class="container">
+  <a href="index.html">Início</a>
+  <a href="acesso.html">Acesso & Senhas</a>
+  <a href="servicenow.html">ServiceNow</a>
+  <a href="sap.html">SAP Fiori</a>
+  <a href="impressoras.html" class="active">Impressoras</a>
+  <a href="contatos.html">Telefones</a>
+  <a href="ia.html">Assistentes IA</a>
+</div></nav>
+<div class="container">
+<section>
+  <h2>🖨️ Impressoras</h2>
+  <div class="cta-grid">
+    <div class="cta" data-href="https://172.20.206.67/"><p class="label">Miracema — HP LaserJet Flow MFP E72535</p><p class="desc">Mono · Painel web</p></div>
+    <div class="cta" data-href="https://172.20.206.69/"><p class="label">Miracema — HP LaserJet MFP E42540</p><p class="desc">Color · Painel web</p></div>
+    <div class="cta" data-href="https://172.20.206.13/"><p class="label">Palmas — HP Color LaserJet MFP E57540</p><p class="desc">Color · ESCRITÓRIO INVESTCO TOCANTINS</p></div>
+    <div class="cta" data-href="https://172.20.206.5/"><p class="label">Palmas — HP LaserJet MFP E42540</p><p class="desc">Mono · ESCRITÓRIO INVESTCO TOCANTINS</p></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  function go(href){ window.open(href, href.startsWith('http') ? '_blank' : '_self'); }
+  function attach(el, href){
+    el.addEventListener('click', (e)=>{
+      const r = document.createElement('span');
+      r.className='ripple';
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = size+'px';
+      r.style.left = (e.clientX - rect.left - size/2)+'px';
+      r.style.top  = (e.clientY - rect.top  - size/2)+'px';
+      el.appendChild(r);
+      setTimeout(()=>r.remove(), 650);
+      setTimeout(()=>go(href), 80);
+    });
+    el.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(href); }
+    });
+    el.setAttribute('tabindex','0');
+    el.setAttribute('role','button');
+  }
+  document.querySelectorAll('[data-href]').forEach(el=>attach(el, el.getAttribute('data-href')));
+  // Home quick search
+  const qs = document.getElementById('qs');
+  if(qs){
+    const items = Array.from(document.querySelectorAll('#home-ctas .cta'));
+    qs.addEventListener('input', ()=>{
+      const t = (qs.value||'').toLowerCase();
+      items.forEach(el=>{
+        const s = el.textContent.toLowerCase();
+        el.style.display = !t || s.includes(t) ? '' : 'none';
+      });
+    });
+  }
+})();
+</script>
+</div><footer>Feito para uso interno — Alguns links exigem rede interna/VPN corporativa.</footer></body></html>

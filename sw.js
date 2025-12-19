@@ -1,0 +1,2 @@
+self.addEventListener('install',e=>{e.waitUntil(caches.open('investco-v1').then(c=>c.addAll(['/index.html','/acesso.html','/servicenow.html','/sap.html','/impressoras.html','/contatos.html','/ia.html','/inventario.html','/assets/logo-edp.png','/assets/favicon.png','/manifest.webmanifest'])))});
+self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(x=>{const y=x.clone();caches.open('investco-v1').then(c=>c.put(e.request,y));return x;}).catch(()=>r)))})

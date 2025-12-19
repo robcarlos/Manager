@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Portal Investco / EDP — Inventário</title>
+<link rel="icon" href="assets/favicon.png"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#1fb2e0"/>
+<style>
+:root{--bg:#0b0f1a;--panel:#070c17;--bd:#1e293b;--fg:#e6eaf2;--muted:#8aa0b9;--accent:#1fb2e0;--shadow:0 8px 28px rgba(2,12,32,.35)}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:linear-gradient(180deg,var(--bg),#050912);color:var(--fg);font:500 15px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+.container{max-width:1100px;margin:0 auto;padding:20px}a{color:inherit;text-decoration:none}
+header{backdrop-filter:saturate(1.2) blur(8px);background:linear-gradient(180deg,rgba(6,10,18,.6),rgba(6,10,18,.2));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:30}
+.header-inner{display:flex;align-items:center;gap:14px;padding:12px 0}.logo{width:220px}
+.brand h1{font-size:18px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+nav.primary{position:sticky;top:60px;z-index:29;margin:0;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,rgba(7,12,23,.85),rgba(7,12,23,.55))}
+nav.primary .container{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+nav.primary a{display:inline-block;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--panel);font-size:14px}
+nav.primary a.active,nav.primary a:hover{border-color:var(--accent)}
+h2{margin:14px 0 8px}
+.card{border:1px solid var(--bd);background:linear-gradient(180deg,rgba(6,11,23,.85),rgba(6,10,21,.65));border-radius:16px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 12px;margin-top:8px}
+.filters select,.filters input{background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+@media (max-width:900px){.filters{grid-template-columns:1fr 1fr}}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;justify-content:space-between}
+.inv-main{margin-top:18px}
+.inv-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.inv-toolbar-left{display:flex;flex-direction:column;gap:2px}
+.inv-toolbar-title{font-size:16px;font-weight:600}
+.inv-toolbar-sub{font-size:13px;color:var(--muted)}
+.inv-toolbar-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.btn-primary{background:linear-gradient(135deg,#1fb2e0,#22c55e);border-color:transparent;color:#f9fafb}
+.btn-ghost{background:transparent;border-color:var(--bd);color:var(--fg)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost:hover{border-color:var(--accent);background:#020617}
+.chip-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip-tab{padding:4px 10px;border-radius:999px;border:1px solid var(--bd);background:#020617;font-size:12px;color:#8aa0b9;cursor:pointer}
+.chip-tab.active,.chip-tab:hover{border-color:var(--accent);color:#e5e7eb}
+
+.btn{padding:8px 10px;border:1px solid var(--bd);background:#0c1628;color:var(--fg);border-radius:10px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent)}.badge{padding:4px 8px;border:1px solid var(--bd);border-radius:999px;font-size:12px;background:#0f1726;color:#8aa0b9}
+.table{width:100%;border-collapse:collapse;margin-top:12px}.table th,.table td{padding:10px;border-bottom:1px solid var(--bd);text-align:left;font-size:14px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.pagination{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:1000}
+.modal.open{display:grid}.modal .box{width:min(720px,94vw);background:linear-gradient(180deg,#0b1324,#0b111b);border:1px solid var(--bd);border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.form-grid label{font-size:12px;color:#8aa0b9}
+.form-grid input,.form-grid select{width:100%;background:#0b1220;border:1px solid var(--bd);color:var(--fg);padding:8px 10px;border-radius:10px}
+.toast{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:1200}.toast .t{background:#0e1a2d;border:1px solid #1e2c42;color:#d8e6f5;padding:10px 12px;border-radius:10px;min-width:220px}
+.float-btns{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:10px;z-index:9999}
+.float-btn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:rgba(10,21,40,.9);border:1px solid #1e293b;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:pointer}
+.float-btn svg{width:26px;height:26px;fill:#1fb2e0}
+</style>
+</head>
+<body>
+<header><div class="container header-inner">
+  <a href="index.html"><img class="logo" src="assets/logo-edp.png" alt="Logo EDP"/></a>
+  <div class="brand"><h1>Portal Investco / EDP — Inventário</h1><p>Gestão de ativos • Filtros avançados • CRUD com confirmação</p></div>
+</div></header>
+<nav class="primary"><div class="container">
+  <a href="index.html">Início</a>
+  <a href="acesso.html">Acesso & Senhas</a>
+  <a href="servicenow.html">ServiceNow</a>
+  <a class="active" href="inventario.html">Inventário</a>
+  <a href="sap.html">SAP Fiori</a>
+  <a href="impressoras.html">Impressoras</a>
+  <a href="contatos.html">Telefones</a>
+  <a href="ia.html">Assistentes IA</a>
+</div>
+</nav>
+<div class="container">
+  <section class="card inv-main">
+    <div class="inv-toolbar">
+      <div class="inv-toolbar-left">
+        <span class="inv-toolbar-title">Inventário de equipamentos</span>
+        <span class="inv-toolbar-sub">Filtrar, editar e exportar ativos em uma única visão.</span>
+      </div>
+      <div class="inv-toolbar-actions">
+        <button class="btn btn-ghost" id="menu-filtros">Filtros</button>
+        <button class="btn btn-ghost" id="menu-lista">Lista</button>
+        <button class="btn btn-primary" id="menu-novo">Novo equipamento</button>
+        <button class="btn" id="btn-exportar">Exportar</button>
+      </div>
+    </div>
+    <div class="chip-tabs">
+      <button class="chip-tab active" data-tipo="">Todos</button>
+      <button class="chip-tab" data-tipo="Celular">Celulares</button>
+      <button class="chip-tab" data-tipo="Notebook">Notebooks</button>
+      <button class="chip-tab" data-tipo="Desktop">Desktops</button>
+      <button class="chip-tab" data-tipo="Redes">Redes</button>
+    </div>
+  </section>
+  <section class="card" id="sec-filtros">
+
+    <div class="filters">
+      <select id="f-tipo"><option value="">Tipo</option><option>Celular</option><option>Notebook</option><option>Desktop</option><option>Switch</option></select>
+      <select id="f-loc"><option value="">Localização</option><option>Palmas-Escritório</option><option>Miracema Usina</option></select>
+      <select id="f-fab"><option value="">Fabricante</option><option>Dell</option><option>Samsung</option><option>HP</option><option>Xiaomi</option><option>Apple</option><option>Cisco</option><option>TP-Link</option><option>Starlink</option></select>
+      <select id="f-mod"><option value="">Modelo</option><option>Latitude 3490</option><option>Latitude 5450</option><option>Latitude 3450</option></select>
+      <input id="f-tag" placeholder="Service Tag"/>
+      <input id="f-imei" placeholder="IMEI"/>
+      <input id="f-cc" placeholder="Centro de Custo"/>
+    </div>
+    <div class="actions">
+      <div>
+        <button class="btn btn-primary" id="btn-filtrar">Aplicar filtros</button>
+        <button class="btn btn-ghost" id="btn-limpar">Limpar</button>
+      </div>
+      <div>
+        <span class="badge" id="count">0 itens</span>
+      </div>
+    </div>
+  
+  </section>
+  <section class="card" id="sec-resultados">
+
+    <table class="table" aria-label="Tabela de inventário">
+      <thead><tr>
+        <th>#</th><th>Tipo</th><th>Localização</th><th>Fabricante</th>
+        <th>Modelo</th><th>Identificador</th><th>Centro de Custo</th><th>Estado</th><th>Ações</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="pagination">
+      <button class="btn" id="prev">Anterior</button>
+      <span id="pageInfo" class="badge">pág 1</span>
+      <button class="btn" id="next">Próxima</button>
+    </div>
+  
+  </section>
+</div>
+<footer style="text-align:center;color:#8aa0b9;padding:24px 0">© <span id="y"></span> Investco / EDP • Inventário</footer>
+
+<!-- Modais básicos (Editar/Novo/Confirmar) -->
+<div id="modalEdit" class="modal"><div class="box">
+  <h3>Editar equipamento <span id="me-id" class="mini"></span></h3>
+  <div class="form-grid">
+    <div><label>Tipo</label><select id="me-tipo"><option>Celular</option><option>Notebook</option><option>Desktop</option><option>Switch</option></select></div>
+    <div><label>Localização</label><select id="me-loc"><option>Palmas-Escritório</option><option>Miracema Usina</option></select></div>
+    <div><label>Fabricante</label><select id="me-fab"><option>Dell</option><option>Samsung</option><option>HP</option><option>Xiaomi</option><option>Apple</option><option>Cisco</option><option>TP-Link</option><option>Starlink</option></select></div>
+    <div><label>Modelo</label><input id="me-mod" /></div>
+    <div><label>Identificador (Service Tag / IMEI)</label><input id="me-idf" /></div>
+    <div><label>Centro de Custo</label><input id="me-cc" /></div>
+    <div><label>Estado</label><select id="me-est"><option>EM USO</option><option>Estoque</option><option>Devolução</option></select></div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+    <button class="btn" id="me-cancel">Cancelar</button>
+    <button class="btn" id="me-save">Salvar</button>
+  </div>
+</div></div>
+
+<div id="modalNovo" class="modal"><div class="box">
+  <h3>Novo equipamento</h3>
+  <div class="form-grid">
+    <div><label>Tipo*</label><select id="mn-tipo"><option>Celular</option><option>Notebook</option><option>Desktop</option><option>Switch</option></select></div>
+    <div><label>Fabricante*</label><select id="mn-fab"><option>Dell</option><option>Samsung</option><option>HP</option><option>Xiaomi</option><option>Apple</option><option>Cisco</option><option>TP-Link</option><option>Starlink</option></select></div>
+    <div><label>Modelo*</label><input id="mn-mod"/></div>
+    <div><label>Localização</label><select id="mn-loc"><option>Palmas-Escritório</option><option>Miracema Usina</option></select></div>
+    <div><label>Identificador (Service Tag / IMEI)</label><input id="mn-idf"/></div>
+  </div>
+  <small>*Campos obrigatórios. Estado padrão: EM USO. Centro de Custo vazio.</small>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+    <button class="btn" id="mn-cancel">Cancelar</button>
+    <button class="btn" id="mn-save">Salvar</button>
+  </div>
+</div></div>
+
+<div id="confirm" class="modal"><div class="box">
+  <h3>Confirmar exclusão</h3>
+  <p>Deseja realmente excluir este equipamento?</p>
+  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+    <button class="btn" id="c-cancel">Cancelar</button>
+    <button class="btn" id="c-ok">Excluir</button>
+  </div>
+</div></div>
+
+<div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+<div class="float-btns" aria-label="Ações rápidas">
+  <a class="float-btn" href="https://wa.me/5563981042192" target="_blank" aria-label="WhatsApp" title="WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.47a6.41 6.41 0 0 1-2.1-.42c-.33-.12-.72-.02-.92.26l-.57.79c-1.07-.41-1.96-1.14-2.75-2.09-.65-.8-1.15-1.7-1.5-2.66l.9-.6c.29-.19.41-.56.3-.88-.15-.46-.22-.96-.22-1.48 0-.38-.31-.7-.69-.7H9.1c-.38 0-.7.32-.69.7.04 2.23.79 4.23 2.25 6.03 1.8 2.23 4.18 3.64 7.11 4.19.38.07.73-.17.82-.54l.26-1.14c.09-.4-.16-.8-.54-.9Z"/></svg>
+  </a>
+  <a class="float-btn" href="mailto:r.ferreiradasilva2@dxc.com" target="_blank" aria-label="Teams" title="Teams">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M21 6a3 3 0 1 1 0 6h-3v8.5A3.5 3.5 0 0 1 14.5 24H9a5 5 0 0 1-5-5v-6h5v-2a3 3 0 0 1 6 0v2h3a3 3 0 1 1 3-5Z"/></svg>
+  </a>
+</div>
+
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
+let page=1, pageSize=10, total=0; let editing=null, deletingId=null;
+function val(id){ return document.getElementById(id).value.trim(); }
+function toast(msg){ const t=document.createElement('div'); t.className='t'; t.textContent=msg; const c=document.getElementById('toast'); c.appendChild(t); setTimeout(()=>{t.style.opacity='0'; setTimeout(()=>t.remove(),300)},2200); }
+async function load(){
+  const params = new URLSearchParams({ page, pageSize, tipo: val('f-tipo'), localizacao: val('f-loc'), fabricante: val('f-fab'), modelo: val('f-mod'), tag: val('f-tag'), imei: val('f-imei'), centro_custo: val('f-cc') });
+  const r = await fetch('/api/equipamentos?'+params.toString()); const j = await r.json();
+  total = j.total; document.getElementById('count').textContent = `${j.total} itens`; document.getElementById('pageInfo').textContent = `pág ${j.page}`;
+  const tb = document.getElementById('rows'); tb.innerHTML='';
+  j.data.forEach((e,i)=>{
+    const ident = e.service_tag || e.imei || '';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${(j.page-1)*pageSize+i+1}</td><td>${e.tipo||''}</td><td>${e.localizacao||''}</td><td>${e.fabricante||''}</td><td>${e.modelo||''}</td><td>${ident}</td><td>${e.centro_custo||''}</td><td>${e.estado||''}</td>
+      <td class="row-actions"><button class='btn btn-edit' data-id='${e.id}'>Editar</button><button class='btn btn-del' data-id='${e.id}'>Excluir</button></td>`;
+    tb.appendChild(tr);
+  });
+  document.querySelectorAll('.btn-edit').forEach(b=>{ const id = parseInt(b.dataset.id,10); b.onclick=()=>openEdit(id, j.data.find(x=>x.id===id)); });
+  document.querySelectorAll('.btn-del').forEach(b=>{ const id = parseInt(b.dataset.id,10); b.onclick=()=>confirmDelete(id); });
+}
+document.getElementById('btn-filtrar').onclick=()=>{ page=1; load(); };
+document.getElementById('btn-limpar').onclick=()=>{ ['f-tipo','f-loc','f-fab','f-mod','f-tag','f-imei','f-cc'].forEach(id=>document.getElementById(id).value=''); page=1; load(); };
+document.getElementById('prev').onclick=()=>{ if(page>1){ page--; load(); } };
+document.getElementById('next').onclick=()=>{ if(page*pageSize<total){ page++; load(); } };
+document.getElementById('y').textContent = new Date().getFullYear();
+const mEdit = document.getElementById('modalEdit');
+function openEdit(id, e){ editing = id;
+  document.getElementById('me-id').textContent = `#${id}`;
+  document.getElementById('me-tipo').value = e?.tipo || 'Notebook';
+  document.getElementById('me-loc').value  = e?.localizacao || 'Palmas-Escritório';
+  document.getElementById('me-fab').value  = e?.fabricante || 'Dell';
+  document.getElementById('me-mod').value  = e?.modelo || '';
+  document.getElementById('me-idf').value  = e?.service_tag || e?.imei || '';
+  document.getElementById('me-cc').value   = e?.centro_custo || '';
+  document.getElementById('me-est').value  = e?.estado || 'EM USO';
+  mEdit.classList.add('open');
+}
+document.getElementById('me-cancel').onclick=()=>mEdit.classList.remove('open');
+document.getElementById('me-save').onclick=async ()=>{
+  if(!editing) return;
+  const ident = document.getElementById('me-idf').value.trim();
+  const body = { tipo: document.getElementById('me-tipo').value, localizacao: document.getElementById('me-loc').value, fabricante: document.getElementById('me-fab').value, modelo: document.getElementById('me-mod').value,
+    service_tag: /\D/.test(ident) ? ident : '', imei: /^\d{10,}$/.test(ident) ? ident : '', centro_custo: document.getElementById('me-cc').value, estado: document.getElementById('me-est').value };
+  const r = await fetch('/api/equipamentos/'+editing, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if(r.ok){ mEdit.classList.remove('open'); toast('Equipamento salvo com sucesso.'); load(); } else { alert('Falha ao salvar'); }
+};
+const mNovo = document.getElementById('modalNovo');
+document.getElementById('btn-novo').onclick=()=>{ mNovo.classList.add('open'); };
+document.getElementById('mn-cancel').onclick=()=>mNovo.classList.remove('open');
+document.getElementById('mn-save').onclick=async ()=>{
+  const tipo = document.getElementById('mn-tipo').value;
+  const fabricante = document.getElementById('mn-fab').value;
+  const modelo = document.getElementById('mn-mod').value.trim();
+  if(!tipo || !fabricante || !modelo){ alert('Preencha Tipo, Fabricante e Modelo.'); return; }
+  const ident = document.getElementById('mn-idf').value.trim();
+  const body = { tipo, fabricante, modelo, localizacao: document.getElementById('mn-loc').value, service_tag: /\D/.test(ident) ? ident : '', imei: /^\d{10,}$/.test(ident) ? ident : '', centro_custo: '', estado: 'EM USO' };
+  const r = await fetch('/api/equipamentos', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if(r.ok){ mNovo.classList.remove('open'); toast('Novo equipamento cadastrado.'); page=1; load(); } else { alert('Falha ao cadastrar'); }
+};
+const dialog = document.getElementById('confirm');
+function confirmDelete(id){ deletingId = id; dialog.classList.add('open'); }
+document.getElementById('c-cancel').onclick=()=>{ dialog.classList.remove('open'); deletingId=null; };
+document.getElementById('c-ok').onclick=async ()=>{
+  if(!deletingId) return;
+  const r = await fetch('/api/equipamentos/'+deletingId, { method:'DELETE' });
+  if(r.ok){ toast('Equipamento removido com sucesso.'); }
+  deletingId=null; dialog.classList.remove('open'); load();
+};
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ if(mEdit.classList.contains('open')) mEdit.classList.remove('open'); if(mNovo.classList.contains('open')) mNovo.classList.remove('open'); if(dialog.classList.contains('open')) dialog.classList.remove('open'); }
+});
+load();
+
+// Navegação do menu principal da página de inventário
+(function(){
+  const secFiltros = document.getElementById('sec-filtros');
+  const secResultados = document.getElementById('sec-resultados');
+  const btnNovo = document.getElementById('btn-novo');
+  const menuFiltros = document.getElementById('menu-filtros');
+  const menuLista = document.getElementById('menu-lista');
+  const menuNovo = document.getElementById('menu-novo');
+
+  if(menuFiltros && secFiltros){
+    menuFiltros.onclick = () => secFiltros.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  if(menuLista && secResultados){
+    menuLista.onclick = () => secResultados.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  if(menuNovo && btnNovo){
+    menuNovo.onclick = () => btnNovo.click();
+  }
+
+  // Abas rápidas por tipo de equipamento
+  const chips = document.querySelectorAll('.chip-tab');
+  const selTipo = document.getElementById('f-tipo');
+  if(chips.length && selTipo){
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const tipo = chip.dataset.tipo || '';
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        selTipo.value = tipo;
+        if(typeof load === 'function'){
+          load(1);
+        }
+      });
+    });
+  }
+})();
+
+</script>
+</body>
+</html>
